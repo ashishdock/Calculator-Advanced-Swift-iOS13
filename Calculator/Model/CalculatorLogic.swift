@@ -21,27 +21,23 @@ struct CalculatorLogic {
     mutating func calculate(symbol: String) -> Double? {
         
         if let n = number {
-            if symbol == "+/-" {
+            switch symbol {
+            case "+/-":
                 return n * -1
-            }
-            else if symbol == "AC" {
+            case "AC":
                 return 0
-            }
-            else if symbol == "%" {
+            case "%":
                 return n * 0.01
-            }
-            else if symbol == "=" {
+            case "=":
                 return performTwoNumCalculation(n2: n)
-            }
-            else {
+            default:
                 print("Reached intermediateCalculation...")
                 intermediateCalculation = (n1: n, calcMethod: symbol)
+                print(intermediateCalculation)
                 print(intermediateCalculation?.n1,intermediateCalculation?.calcMethod)
+                
             }
-            
-
         }
-        
         return nil
     }
     
@@ -49,10 +45,10 @@ struct CalculatorLogic {
         if let n1 = intermediateCalculation?.n1, let operation = intermediateCalculation?.calcMethod {
             switch operation {
             case "+":
-                print("hit +")
+                print("Addition performed")
                 return n1 + n2
             case "-":
-                print("hit -")
+                print("Subtraction performed")
                 return n1 - n2
             case "×":
                 print("hit *")
