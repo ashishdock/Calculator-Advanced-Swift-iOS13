@@ -12,11 +12,34 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var displayLabel: UILabel!
     
-    var isFinishedTypingNumber: Bool = true
+    private var isFinishedTypingNumber: Bool = true
+    
+    private var displayValue: Double {
+        get {
+            guard let number = Double(displayLabel.text!) else { fatalError("Cannot convert display label text to Double.") }
+            return number
+        }
+        set {
+            displayLabel.text = String(newValue)
+        }
+    }
     
     @IBAction func calcButtonPressed(_ sender: UIButton) {
         
         //What should happen when a non-number button is pressed
+        isFinishedTypingNumber = true
+        
+        if let calcMethod = sender.currentTitle {
+            if calcMethod == "+/-" {
+                displayValue *= -1
+            }
+            if calcMethod == "AC" {
+                displayLabel.text = "0"
+            }
+            if calcMethod == "%" {
+                displayValue *= 0.01
+            }
+        }
     
     }
 
@@ -30,14 +53,24 @@ class ViewController: UIViewController {
                 displayLabel.text = numValue
                 isFinishedTypingNumber = false
             } else {
+                
+                if numValue == "." {
+                    
+                    let isInt = floor(displayValue) == displayValue
+                    
+                    if !isInt {
+                        return
+                    }
+                }
                 displayLabel.text = displayLabel.text! + numValue
             }
-            
         }
         
         
         
     }
+    
+    // make a function / variable isDotpressed so that a user can only add decimal once as per Mathematics
 
 }
 
